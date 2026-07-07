@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameZone Top Up - Murah, Cepat, Aman</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      background: #13132b;
+      padding: 14px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #7c3aed;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #a78bfa;
+      letter-spacing: 1px;
+    }
+    .logo span { color: #f59e0b; }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 22px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #a78bfa; }
+    .nav-links a.active { color: #f59e0b; font-weight: 600; }
+
+    /* ===== HALAMAN ===== */
+    .page { display: none; padding: 30px 20px; max-width: 960px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    /* ===== BERANDA ===== */
+    .hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
+    .hero h1 { font-size: 32px; color: #a78bfa; margin-bottom: 10px; }
+    .hero h1 span { color: #f59e0b; }
+    .hero p { color: #94a3b8; font-size: 15px; margin-bottom: 30px; }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .badge {
+      background: #1e1e3a;
+      border: 1px solid #7c3aed;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #c4b5fd;
+    }
+
+    .game-cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .game-card {
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 14px;
+      width: 260px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+      text-align: center;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: #7c3aed;
+    }
+
+    .game-card .icon { font-size: 42px; margin-bottom: 10px; }
+    .game-card h3 { font-size: 16px; color: #e2e8f0; margin-bottom: 6px; }
+    .game-card p { font-size: 13px; color: #64748b; margin-bottom: 14px; }
+    .game-card .btn-topup {
+      background: #7c3aed;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    .game-card .btn-topup:hover { background: #6d28d9; }
+
+    .info-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .info-box {
+      background: #1a1a2e;
+      border-radius: 10px;
+      padding: 18px 24px;
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+      border: 1px solid #2d2d50;
+    }
+    .info-box .num { font-size: 24px; font-weight: 700; color: #f59e0b; }
+    .info-box .label { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+    /* ===== HALAMAN TOP UP ===== */
+    .topup-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #2d2d50;
+    }
+    .topup-header .icon-big { font-size: 50px; }
+    .topup-header h2 { font-size: 22px; color: #a78bfa; }
+    .topup-header p { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+    .form-section label {
+      display: block;
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      margin-top: 16px;
+    }
+
+    .form-section input, .form-section select {
+      width: 100%;
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #e2e8f0;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-section input:focus, .form-section select:focus {
+      border-color: #7c3aed;
+    }
+    .form-section select option { background: #1a1a2e; }
+
+    .nominal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .nominal-item {
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nominal-item:hover { border-color: #7c3aed; }
+    .nominal-item.selected { border-color: #f59e0b; background: #2a1a3e; }
+    .nominal-item .dm { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+    .nominal-item .harga { font-size: 11px; color: #64748b; margin-top: 3px; }
+
+    .bayar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .bayar-item {
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 8px;
+      padding: 14px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13px;
+    }
+    .bayar-item:hover { border-color: #7c3aed; }
+    .bayar-item.selected { border-color: #10b981; background: #0d2a1f; color: #6ee7b7; }
+    .bayar-item .pay-icon { font-size: 20px; margin-bottom: 4px; }
+
+    .total-box {
+      background: #1a1a2e;
+      border: 1px solid #7c3aed;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .total-box .label { font-size: 13px; color: #94a3b8; }
+    .total-box .amount { font-size: 20px; font-weight: 700; color: #f59e0b; }
+
+    .btn-beli {
+      width: 100%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: opacity 0.2s;
+    }
+    .btn-beli:hover { opacity: 0.88; }
+
+    /* ===== CARA PEMBAYARAN ===== */
+    .page-title {
+      font-size: 22px;
+      color: #a78bfa;
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .pay-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .pay-tab {
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #94a3b8;
+      transition: all 0.2s;
+    }
+    .pay-tab:hover { border-color: #7c3aed; color: #c4b5fd; }
+    .pay-tab.active { border-color: #f59e0b; color: #f59e0b; background: #221a0a; }
+
+    .pay-content { display: none; }
+    .pay-content.active { display: block; }
+
+    .pay-steps {
+      background: #1a1a2e;
+      border: 1px solid #2d2d50;
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .pay-steps h3 { font-size: 15px; color: #e2e8f0; margin-bottom: 16px; }
+
+    .step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: #7c3aed;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-text { font-size: 13px; color: #94a3b8; line-height: 1.6; padding-top: 3px; }
+    .step-text strong { color: #e2e8f0; }
+
+    .note-box {
+      background: #0d1f2d;
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #7dd3fc;
+      line-height: 1.6;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #1a1a2e;
+      border: 1px solid #7c3aed;
+      border-radius: 16px;
+      padding: 30px 28px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+    }
+    .modal-box .ic { font-size: 50px; margin-bottom: 12px; }
+    .modal-box h3 { font-size: 18px; color: #a78bfa; margin-bottom: 8px; }
+    .modal-box p { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+    .modal-box .btn-close {
+      background: #7c3aed;
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 8px;
+      margin-top: 18px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #334155;
+      border-top: 1px solid #1e1e3a;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .nominal-grid { grid-template-columns: repeat(2, 1fr); }
+      .bayar-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links a { margin-left: 12px; font-size: 12px; }
+      .logo { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">Game<span>Zone</span></div>
+  <div class="nav-links">
+    <a onclick="showPage('beranda')" class="active" id="nav-beranda">Beranda</a>
+    <a onclick="showPage('bayar')" id="nav-bayar">Cara Bayar</a>
+    <a onclick="showPage('tutorial')" id="nav-tutorial">Video Tutorial</a>
+    <a onclick="showPage('tentang')" id="nav-tentang">Tentang</a>
+  </div>
+</nav>
+
+<!-- ===== BERANDA ===== -->
+<div class="page active" id="page-beranda">
+  <div class="hero">
+    <h1>Top Up Game <span>Tercepat</span> & Termurah</h1>
+    <p>Platform top up game terpercaya untuk Mobile Legends, eFootball, dan Free Fire.<br>Proses otomatis, aman 100%, buka 24 jam.</p>
+    <div class="badge-row">
+      <div class="badge">⚡ Proses Instan</div>
+      <div class="badge">🔒 Aman & Legal</div>
+      <div class="badge">📞 CS 24 Jam</div>
+      <div class="badge">💸 Harga Termurah</div>
+    </div>
+  </div>
+
+  <div class="game-cards">
+    <div class="game-card" onclick="showPage('ml')">
+      <div class="icon">⚔️</div>
+      <h3>Mobile Legends</h3>
+      <p>Top up Diamond MLBB murah dan cepat</p>
+      <button class="btn-topup">Top Up Sekarang</button>
+    </div>
+    <div class="game-card" onclick="showPage('ef')">
+      <div class="icon">⚽</div>
+      <h3>eFootball</h3>
+      <p>Isi eFootball Coin untuk tim impianmu</p>
+      <button class="btn-topup">Top Up Sekarang</button>
+    </div>
+    <div class="game-card" onclick="showPage('ff')">
+      <div class="icon">🔥</div>
+      <h3>Free Fire</h3>
+      <p>Top up Diamond FF harga paling murah</p>
+      <button class="btn-topup">Top Up Sekarang</button>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-box">
+      <div class="num">50K+</div>
+      <div class="label">Transaksi / Bulan</div>
+    </div>
+    <div class="info-box">
+      <div class="num">3</div>
+      <div class="label">Game Tersedia</div>
+    </div>
+    <div class="info-box">
+      <div class="num">4</div>
+      <div class="label">Metode Pembayaran</div>
+    </div>
+    <div class="info-box">
+      <div class="num">24/7</div>
+      <div class="label">Layanan Aktif</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MOBILE LEGENDS ===== -->
+<div class="page" id="page-ml">
+  <div class="topup-header">
+    <div class="icon-big">⚔️</div>
+    <div>
+      <h2>Top Up Mobile Legends</h2>
+      <p>Masukkan User ID kamu lalu pilih nominal Diamond</p>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <label>User ID Mobile Legends</label>
+    <input type="text" id="ml-uid" placeholder="Contoh: 123456789" />
+
+    <label>Zone ID</label>
+    <input type="text" id="ml-zone" placeholder="Contoh: 1234" />
+
+    <label>Pilih Nominal Diamond</label>
+    <div class="nominal-grid" id="nominal-ml"></div>
+
+    <label>Metode Pembayaran</label>
+    <div class="bayar-grid" id="bayar-ml"></div>
+
+    <div class="total-box">
+      <div class="label">Total Pembayaran</div>
+      <div class="amount" id="total-ml">Rp 0</div>
+    </div>
+
+    <button class="btn-beli" onclick="prosesBeli('ml')">Beli Sekarang</button>
+  </div>
+</div>
+
+<!-- ===== eFOOTBALL ===== -->
+<div class="page" id="page-ef">
+  <div class="topup-header">
+    <div class="icon-big">⚽</div>
+    <div>
+      <h2>Top Up eFootball</h2>
+      <p>Masukkan Konami ID kamu lalu pilih jumlah Coin</p>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <label>Konami ID / Email</label>
+    <input type="text" id="ef-uid" placeholder="Contoh: user@email.com" />
+
+    <label>Pilih Nominal eFootball Coin</label>
+    <div class="nominal-grid" id="nominal-ef"></div>
+
+    <label>Metode Pembayaran</label>
+    <div class="bayar-grid" id="bayar-ef"></div>
+
+    <div class="total-box">
+      <div class="label">Total Pembayaran</div>
+      <div class="amount" id="total-ef">Rp 0</div>
+    </div>
+
+    <button class="btn-beli" onclick="prosesBeli('ef')">Beli Sekarang</button>
+  </div>
+</div>
+
+<!-- ===== FREE FIRE ===== -->
+<div class="page" id="page-ff">
+  <div class="topup-header">
+    <div class="icon-big">🔥</div>
+    <div>
+      <h2>Top Up Free Fire</h2>
+      <p>Masukkan Player ID kamu lalu pilih nominal Diamond</p>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <label>Player ID Free Fire</label>
+    <input type="text" id="ff-uid" placeholder="Contoh: 987654321" />
+
+    <label>Pilih Nominal Diamond</label>
+    <div class="nominal-grid" id="nominal-ff"></div>
+
+    <label>Metode Pembayaran</label>
+    <div class="bayar-grid" id="bayar-ff"></div>
+
+    <div class="total-box">
+      <div class="label">Total Pembayaran</div>
+      <div class="amount" id="total-ff">Rp 0</div>
+    </div>
+
+    <button class="btn-beli" onclick="prosesBeli('ff')">Beli Sekarang</button>
+  </div>
+</div>
+
+<!-- ===== CARA PEMBAYARAN ===== -->
+<div class="page" id="page-bayar">
+  <div class="page-title">💳 Cara Pembayaran</div>
+  <div class="page-sub">Panduan lengkap melakukan pembayaran di GameZone</div>
+
+  <div class="pay-tabs">
+    <div class="pay-tab active" onclick="showPayTab('dana')">DANA</div>
+    <div class="pay-tab" onclick="showPayTab('gopay')">GoPay</div>
+    <div class="pay-tab" onclick="showPayTab('seabank')">SeaBank</div>
+    <div class="pay-tab" onclick="showPayTab('qris')">QRIS</div>
+  </div>
+
+  <!-- DANA -->
+  <div class="pay-content active" id="tab-dana">
+    <div class="pay-steps">
+      <h3>💙 Pembayaran via DANA</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game dan nominal yang ingin kamu beli, lalu pilih <strong>DANA</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — sistem akan menampilkan nomor DANA tujuan dan jumlah yang harus ditransfer.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>DANA</strong> di HP kamu, pilih menu <strong>Kirim</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor tujuan dan nominal persis sesuai yang tertera, lalu konfirmasi transaksi.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kirim bukti transfer ke WhatsApp CS kami. Diamond/Coin akan masuk dalam <strong>1–5 menit</strong>.</div></div>
+      <div class="note-box">⚠️ Pastikan nominal transfer <strong>tepat sama</strong> dengan yang tertera agar pesanan diproses otomatis.</div>
+    </div>
+  </div>
+
+  <!-- GOPAY -->
+  <div class="pay-content" id="tab-gopay">
+    <div class="pay-steps">
+      <h3>💚 Pembayaran via GoPay</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>GoPay</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — kamu akan mendapat nomor GoPay tujuan dan total pembayaran.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>Gojek</strong>, masuk ke menu <strong>GoPay → Bayar → Transfer</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor tujuan dan nominal, lalu selesaikan pembayaran dengan PIN GoPay.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Screenshot bukti pembayaran dan kirim ke CS. Pesanan diproses <strong>otomatis</strong>.</div></div>
+      <div class="note-box">💡 Saldo GoPay harus mencukupi sebelum melakukan transfer agar tidak gagal di tengah proses.</div>
+    </div>
+  </div>
+
+  <!-- SEABANK -->
+  <div class="pay-content" id="tab-seabank">
+    <div class="pay-steps">
+      <h3>🌊 Pembayaran via SeaBank</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>SeaBank</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — catat nomor rekening SeaBank tujuan yang ditampilkan.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>SeaBank</strong>, pilih <strong>Transfer → Transfer ke SeaBank</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor rekening dan nominal transfer, lalu konfirmasi dengan PIN.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kirim bukti transfer ke CS kami via WhatsApp. Diamond/Coin masuk dalam <strong>1–10 menit</strong>.</div></div>
+      <div class="note-box">💡 Transfer antar SeaBank biasanya <strong>bebas biaya admin</strong>, jadi kamu bayar sesuai nominal saja.</div>
+    </div>
+  </div>
+
+  <!-- QRIS -->
+  <div class="pay-content" id="tab-qris">
+    <div class="pay-steps">
+      <h3>🟥 Pembayaran via QRIS</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>QRIS</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — halaman akan menampilkan kode QR yang harus discan.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi e-wallet favoritmu (DANA, GoPay, OVO, dll), pilih <strong>Scan QR / Bayar</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Arahkan kamera ke kode QR yang ditampilkan, pastikan nominal sesuai lalu konfirmasi.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Pembayaran langsung terverifikasi otomatis. Diamond/Coin masuk dalam <strong>hitungan detik</strong>.</div></div>
+      <div class="note-box">✅ QRIS adalah metode tercepat — tidak perlu kirim bukti bayar, proses <strong>100% otomatis</strong>.</div>
+    </div>
+  </div>
+</div>
+
+  <!-- ===== VIDEO TUTORIAL ===== -->
+<div class="page" id="page-tutorial">
+    <div class="page-title">
+        🎥 Video Tutorial Top Up
+    </div>
+    <div class="page-sub">
+        Ikuti langkah-langkah berikut untuk melakukan top up dengan mudah dan cepat.
+    </div>
+    <div class="pay-steps">
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+            <iframe
+                src="https://www.youtube.com/embed/s_G4dG_Hflg"
+                title="Tutorial Top Up"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:12px;">
+            </iframe>
+        </div>
+        <div class="note-box" style="margin-top:20px;">
+            Setelah menonton video tutorial di atas, silakan kembali ke halaman Top Up untuk melakukan pembelian Diamond atau Coin sesuai game yang dipilih.
+        </div>
+    </div>
+</div>
+
+<!-- ===== TENTANG ===== -->
+<div class="page" id="page-tentang">
+    <div class="page-title">👥 Tentang Kami</div>
+    <div class="page-sub">
+        Website ini dibuat sebagai Tugas Final Project mata kuliah Pengenalan Perancangan Web.
+    </div>
+    <div class="pay-steps">
+        <h3>Anggota Kelompok</h3>
+        <table style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td>1</td>
+                <td>Ridwan Afis Saputra</td>
+                <td>25.12.3668</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Muhammad Risky Aditya</td>
+                <td>25.12.3669</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Muhammad Syahpancar Pulung</td>
+                <td>25.12.3670</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Ctvertlik Kal El Lucky</td>
+                <td>25.12.3688</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL SUKSES -->
+<div class="modal-overlay" id="modalSukses">
+  <div class="modal-box">
+    <div class="ic">✅</div>
+    <h3>Pesanan Berhasil!</h3>
+    <p id="modal-msg">Pesanan kamu sedang diproses. Diamond/Coin akan masuk dalam 1–5 menit. Terima kasih sudah belanja di GameZone!</p>
+    <button class="btn-close" onclick="tutupModal()">Tutup</button>
+  </div>
+</div>
+
+<footer>© 2025 GameZone Top Up · Murah · Cepat · Aman · Buka 24 Jam</footer>
+
+<script>
+  // DATA NOMINAL
+  const dataNominal = {
+    ml: [
+      { label: "86 💎", harga: 19000 },
+      { label: "172 💎", harga: 37000 },
+      { label: "257 💎", harga: 55000 },
+      { label: "344 💎", harga: 73000 },
+      { label: "514 💎", harga: 109000 },
+      { label: "706 💎", harga: 149000 },
+      { label: "1024 💎", harga: 215000 },
+      { label: "2195 💎", harga: 429000 },
+      { label: "5532 💎", harga: 1059000 },
+    ],
+    ef: [
+      { label: "200 Coin", harga: 15000 },
+      { label: "500 Coin", harga: 35000 },
+      { label: "1000 Coin", harga: 68000 },
+      { label: "2000 Coin", harga: 135000 },
+      { label: "3000 Coin", harga: 199000 },
+      { label: "5000 Coin", harga: 329000 },
+    ],
+    ff: [
+      { label: "70 💎", harga: 15000 },
+      { label: "140 💎", harga: 29000 },
+      { label: "355 💎", harga: 70000 },
+      { label: "720 💎", harga: 139000 },
+      { label: "1450 💎", harga: 275000 },
+      { label: "2180 💎", harga: 409000 },
+    ],
+  };
+
+  const metodeBayar = [
+    { icon: "💙", nama: "DANA" },
+    { icon: "💚", nama: "GoPay" },
+    { icon: "🌊", nama: "SeaBank" },
+    { icon: "🟥", nama: "QRIS" },
+  ];
+
+  let selectedNominal = { ml: null, ef: null, ff: null };
+  let selectedBayar = { ml: null, ef: null, ff: null };
+
+  function renderNominal(game) {
+    const container = document.getElementById('nominal-' + game);
+    container.innerHTML = '';
+    dataNominal[game].forEach((item, idx) => {
+      const div = document.createElement('div');
+      div.className = 'nominal-item';
+      div.innerHTML = `<div class="dm">${item.label}</div><div class="harga">Rp ${item.harga.toLocaleString('id-ID')}</div>`;
+      div.onclick = () => {
+        container.querySelectorAll('.nominal-item').forEach(el => el.classList.remove('selected'));
+        div.classList.add('selected');
+        selectedNominal[game] = item;
+        updateTotal(game);
+      };
+      container.appendChild(div);
+    });
+  }
+
+  function renderBayar(game) {
+    const container = document.getElementById('bayar-' + game);
+    container.innerHTML = '';
+    metodeBayar.forEach((item) => {
+      const div = document.createElement('div');
+      div.className = 'bayar-item';
+      div.innerHTML = `<div class="pay-icon">${item.icon}</div>${item.nama}`;
+      div.onclick = () => {
+        container.querySelectorAll('.bayar-item').forEach(el => el.classList.remove('selected'));
+        div.classList.add('selected');
+        selectedBayar[game] = item.nama;
+      };
+      container.appendChild(div);
+    });
+  }
+
+  function updateTotal(game) {
+    const el = document.getElementById('total-' + game);
+    if (selectedNominal[game]) {
+      el.textContent = 'Rp ' + selectedNominal[game].harga.toLocaleString('id-ID');
+    }
+  }
+
+  function prosesBeli(game) {
+    const uidMap = { ml: 'ml-uid', ef: 'ef-uid', ff: 'ff-uid' };
+    const uid = document.getElementById(uidMap[game]).value.trim();
+
+    if (!uid) { alert('Harap isi User ID / Player ID terlebih dahulu!'); return; }
+    if (!selectedNominal[game]) { alert('Pilih nominal top up terlebih dahulu!'); return; }
+    if (!selectedBayar[game]) { alert('Pilih metode pembayaran terlebih dahulu!'); return; }
+
+    const namaGame = { ml: 'Mobile Legends', ef: 'eFootball', ff: 'Free Fire' };
+    document.getElementById('modal-msg').innerHTML =
+      `Pesanan <strong>${selectedNominal[game].label}</strong> untuk <strong>${namaGame[game]}</strong> sedang diproses via <strong>${selectedBayar[game]}</strong>.<br><br>Diamond/Coin akan masuk dalam 1–5 menit. Terima kasih!`;
+    document.getElementById('modalSukses').classList.add('show');
+  }
+
+  function tutupModal() {
+    document.getElementById('modalSukses').classList.remove('show');
+  }
+
+  // NAVIGASI
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.getElementById('nav-' + id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // TABS PEMBAYARAN
+  function showPayTab(id) {
+    document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pay-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // INIT
+  ['ml', 'ef', 'ff'].forEach(g => {
+    renderNominal(g);
+    renderBayar(g);
+  });
+</script>
+</body>
+</html>
