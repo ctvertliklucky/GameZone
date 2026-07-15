@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cara Bayar - GameZone Top Up</title>
+<meta name="description" content="Panduan lengkap pembayaran DANA, GoPay, SeaBank, dan QRIS di GameZone." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scan-overlay" aria-hidden="true"></div>
+<div class="blob blob-1" aria-hidden="true"></div>
+<div class="blob blob-2" aria-hidden="true"></div>
+<div class="blob blob-3" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo" style="text-decoration:none;">Game<span>Zone</span></a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html" id="nav-beranda">Beranda</a>
+      <a href="cara-bayar.html" class="active" id="nav-bayar">Cara Bayar</a>
+      <a href="tutorial.html" id="nav-tutorial">Video Tutorial</a>
+      <a href="riwayat.html" id="nav-riwayat">Riwayat</a>
+      <a href="poin.html" id="nav-poin">Poin</a>
+      <a href="tentang.html" id="nav-tentang">Tentang</a>
+    </div>
+    <div class="auth-area" id="authArea"></div>
+  </div>
+</nav>
+
+<!-- FLASH SALE BANNER -->
+<div class="flashsale-banner" id="flashsaleBanner">
+  <div class="fs-inner">
+    <div id="flashsaleTitle">FLASH SALE JUMAT — DISKON 10% SEMUA ITEM</div>
+    <div class="fs-sub" id="flashsaleSub">Berlaku hari ini saja, khusus 1x pembelian per pelanggan</div>
+    <div class="flashsale-countdown" id="flashsaleCountdown"></div>
+  </div>
+</div>
+
+<div class="page" id="page-bayar">
+  <div class="page-title">Cara Pembayaran</div>
+  <div class="page-sub">Panduan lengkap melakukan pembayaran di GameZone</div>
+
+  <div class="pay-steps hud-panel" style="margin-bottom:20px;">
+    <h3>📊 Perbandingan Metode Pembayaran</h3>
+    <table class="crew-table">
+      <tr><th>Metode</th><th>Estimasi Proses</th><th>Biaya Admin</th></tr>
+      <tr><td>💙 DANA</td><td>1–5 menit</td><td>Rp 0</td></tr>
+      <tr><td>💚 GoPay</td><td>1–5 menit</td><td>Rp 0</td></tr>
+      <tr><td>🌊 SeaBank</td><td>1–10 menit</td><td>Rp 0</td></tr>
+      <tr><td>🟥 QRIS</td><td>Beberapa detik</td><td>Rp 0</td></tr>
+    </table>
+  </div>
+
+  <div class="pay-tabs">
+    <div class="pay-tab active" onclick="showPayTab('dana')">DANA</div>
+    <div class="pay-tab" onclick="showPayTab('gopay')">GoPay</div>
+    <div class="pay-tab" onclick="showPayTab('seabank')">SeaBank</div>
+    <div class="pay-tab" onclick="showPayTab('qris')">QRIS</div>
+  </div>
+
+  <!-- DANA -->
+  <div class="pay-content active" id="tab-dana">
+    <div class="pay-steps hud-panel">
+      <h3>💙 Pembayaran via DANA</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game dan nominal yang ingin kamu beli, lalu pilih <strong>DANA</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — sistem akan menampilkan nomor DANA tujuan dan jumlah yang harus ditransfer.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>DANA</strong> di HP kamu, pilih menu <strong>Kirim</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor tujuan dan nominal persis sesuai yang tertera, lalu konfirmasi transaksi.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kirim bukti transfer ke WhatsApp CS kami. Diamond/Coin akan masuk dalam <strong>1–5 menit</strong>.</div></div>
+      <div class="note-box">⚠️ Pastikan nominal transfer <strong>tepat sama</strong> dengan yang tertera agar pesanan diproses otomatis.</div>
+    </div>
+  </div>
+
+  <!-- GOPAY -->
+  <div class="pay-content" id="tab-gopay">
+    <div class="pay-steps hud-panel">
+      <h3>💚 Pembayaran via GoPay</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>GoPay</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — kamu akan mendapat nomor GoPay tujuan dan total pembayaran.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>Gojek</strong>, masuk ke menu <strong>GoPay → Bayar → Transfer</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor tujuan dan nominal, lalu selesaikan pembayaran dengan PIN GoPay.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Screenshot bukti pembayaran dan kirim ke CS. Pesanan diproses <strong>otomatis</strong>.</div></div>
+      <div class="note-box">💡 Saldo GoPay harus mencukupi sebelum melakukan transfer agar tidak gagal di tengah proses.</div>
+    </div>
+  </div>
+
+  <!-- SEABANK -->
+  <div class="pay-content" id="tab-seabank">
+    <div class="pay-steps hud-panel">
+      <h3>🌊 Pembayaran via SeaBank</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>SeaBank</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — catat nomor rekening SeaBank tujuan yang ditampilkan.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi <strong>SeaBank</strong>, pilih <strong>Transfer → Transfer ke SeaBank</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Masukkan nomor rekening dan nominal transfer, lalu konfirmasi dengan PIN.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kirim bukti transfer ke CS kami via WhatsApp. Diamond/Coin masuk dalam <strong>1–10 menit</strong>.</div></div>
+      <div class="note-box">💡 Transfer antar SeaBank biasanya <strong>bebas biaya admin</strong>, jadi kamu bayar sesuai nominal saja.</div>
+    </div>
+  </div>
+
+  <!-- QRIS -->
+  <div class="pay-content" id="tab-qris">
+    <div class="pay-steps hud-panel">
+      <h3>🟥 Pembayaran via QRIS</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Pilih game, nominal, dan pilih <strong>QRIS</strong> sebagai metode pembayaran.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Klik <strong>Beli Sekarang</strong> — halaman akan menampilkan kode QR yang harus discan.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Buka aplikasi e-wallet favoritmu (DANA, GoPay, OVO, dll), pilih <strong>Scan QR / Bayar</strong>.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Arahkan kamera ke kode QR yang ditampilkan, pastikan nominal sesuai lalu konfirmasi.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Pembayaran langsung terverifikasi otomatis. Diamond/Coin masuk dalam <strong>hitungan detik</strong>.</div></div>
+      <div class="note-box">✅ QRIS adalah metode tercepat — tidak perlu kirim bukti bayar, proses <strong>100% otomatis</strong>.</div>
+    </div>
+  </div>
+</div>
+
+
+<footer>© 2026 GameZone Top Up · Murah · Cepat · Aman · Buka 24 Jam</footer>
+
+<script src="script.js"></script>
+<script>initHalamanUmum();</script>
+</body>
+</html>

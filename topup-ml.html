@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Top Up Mobile Legends - GameZone</title>
+<meta name="description" content="Top up Diamond Mobile Legends murah, cepat, dan aman." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scan-overlay" aria-hidden="true"></div>
+<div class="blob blob-1" aria-hidden="true"></div>
+<div class="blob blob-2" aria-hidden="true"></div>
+<div class="blob blob-3" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo" style="text-decoration:none;">Game<span>Zone</span></a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html" id="nav-beranda">Beranda</a>
+      <a href="cara-bayar.html" id="nav-bayar">Cara Bayar</a>
+      <a href="tutorial.html" id="nav-tutorial">Video Tutorial</a>
+      <a href="riwayat.html" id="nav-riwayat">Riwayat</a>
+      <a href="poin.html" id="nav-poin">Poin</a>
+      <a href="tentang.html" id="nav-tentang">Tentang</a>
+    </div>
+    <div class="auth-area" id="authArea"></div>
+  </div>
+</nav>
+
+<!-- FLASH SALE BANNER -->
+<div class="flashsale-banner" id="flashsaleBanner">
+  <div class="fs-inner">
+    <div id="flashsaleTitle">FLASH SALE JUMAT — DISKON 10% SEMUA ITEM</div>
+    <div class="fs-sub" id="flashsaleSub">Berlaku hari ini saja, khusus 1x pembelian per pelanggan</div>
+    <div class="flashsale-countdown" id="flashsaleCountdown"></div>
+  </div>
+</div>
+
+<div class="page" id="page-ml">
+  <div class="topup-header">
+    <div class="icon-big">⚔️</div>
+    <div>
+      <h2>Top Up Mobile Legends</h2>
+      <p>Masukkan User ID kamu lalu pilih nominal Diamond</p>
+    </div>
+  </div>
+
+  <div class="topup-layout">
+    <form class="form-section hud-panel" id="form-ml" onsubmit="event.preventDefault(); prosesBeli('ml');">
+      <label>User ID Mobile Legends</label>
+      <input type="text" id="ml-uid" placeholder="Contoh: 123456789" oninput="updateSummary('ml')" />
+
+      <label>Zone ID</label>
+      <input type="text" id="ml-zone" placeholder="Contoh: 1234" oninput="updateSummary('ml')" />
+
+      <label>Pilih Nominal Diamond</label>
+      <div class="nominal-grid" id="nominal-ml"></div>
+
+      <label>Metode Pembayaran</label>
+      <div class="bayar-grid" id="bayar-ml"></div>
+
+      <label>Voucher Diskon (Opsional)</label>
+      <div class="voucher-select-row">
+        <select id="voucher-ml" onchange="pilihVoucher('ml')">
+          <option value="">Tanpa Voucher</option>
+        </select>
+      </div>
+      <div class="voucher-applied" id="voucher-applied-ml"></div>
+    </form>
+
+    <div class="order-summary hud-panel">
+      <h3>Ringkasan Pesanan</h3>
+      <div class="summary-game">
+        <div class="sg-icon">⚔️</div>
+        <div>
+          <div class="sg-name">Mobile Legends</div>
+          <div class="sg-tag">Diamond Top Up</div>
+        </div>
+      </div>
+      <div class="summary-row">
+        <span class="sr-label">User ID</span>
+        <span class="sr-value empty" id="summary-ml-uid">Belum diisi</span>
+      </div>
+      <div class="summary-row">
+        <span class="sr-label">Zone ID</span>
+        <span class="sr-value empty" id="summary-ml-zone">Belum diisi</span>
+      </div>
+      <div class="summary-row">
+        <span class="sr-label">Item</span>
+        <span class="sr-value empty" id="summary-ml-item">Belum dipilih</span>
+      </div>
+      <div class="summary-row">
+        <span class="sr-label">Bayar</span>
+        <span class="sr-value empty" id="summary-ml-bayar">Belum dipilih</span>
+      </div>
+      <div class="total-box">
+        <div class="label">Total Pembayaran</div>
+        <div class="amount" id="total-ml">Rp 0</div>
+      </div>
+      <button class="btn-beli" onclick="prosesBeli('ml')">Beli Sekarang</button>
+      <div class="summary-hint">⚡ Diamond masuk otomatis 1–5 menit setelah pembayaran berhasil.</div>
+      <div class="proof-contact">
+        <div class="pc-title">📤 Kirim Bukti Transaksi</div>
+        <a class="pc-link wa" href="https://wa.me/6281234567890" target="_blank" rel="noopener">
+          <span class="pc-icon">💬</span>
+          <span>WhatsApp Admin<br><small>+62 812-3456-7890</small></span>
+        </a>
+        <a class="pc-link mail" href="mailto:support@gamezone.id">
+          <span class="pc-icon">✉️</span>
+          <span>Email Admin<br><small>support@gamezone.id</small></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL SUKSES -->
+<div class="modal-overlay" id="modalSukses">
+  <div class="modal-box hud-panel">
+    <div class="ic">✅</div>
+    <h3>Pesanan Berhasil!</h3>
+    <p id="modal-msg">Pesanan kamu sedang diproses. Diamond/Coin akan masuk dalam 1–5 menit. Terima kasih sudah belanja di GameZone!</p>
+    <button class="btn-close" onclick="tutupModal()">Tutup</button>
+  </div>
+</div>
+
+<footer>© 2026 GameZone Top Up · Murah · Cepat · Aman · Buka 24 Jam</footer>
+
+<script src="script.js"></script>
+<script>initHalamanUmum(); initHalamanTopup('ml');</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login / Daftar Akun - GameZone</title>
+<meta name="description" content="Masuk atau buat akun baru untuk menyimpan riwayat pembelian di GameZone." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scan-overlay" aria-hidden="true"></div>
+<div class="blob blob-1" aria-hidden="true"></div>
+<div class="blob blob-2" aria-hidden="true"></div>
+<div class="blob blob-3" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo" style="text-decoration:none;">Game<span>Zone</span></a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="index.html" id="nav-beranda">Beranda</a>
+      <a href="cara-bayar.html" id="nav-bayar">Cara Bayar</a>
+      <a href="tutorial.html" id="nav-tutorial">Video Tutorial</a>
+      <a href="riwayat.html" id="nav-riwayat">Riwayat</a>
+      <a href="poin.html" id="nav-poin">Poin</a>
+      <a href="tentang.html" id="nav-tentang">Tentang</a>
+    </div>
+    <div class="auth-area" id="authArea"></div>
+  </div>
+</nav>
+
+<!-- FLASH SALE BANNER -->
+<div class="flashsale-banner" id="flashsaleBanner">
+  <div class="fs-inner">
+    <div id="flashsaleTitle">FLASH SALE JUMAT — DISKON 10% SEMUA ITEM</div>
+    <div class="fs-sub" id="flashsaleSub">Berlaku hari ini saja, khusus 1x pembelian per pelanggan</div>
+    <div class="flashsale-countdown" id="flashsaleCountdown"></div>
+  </div>
+</div>
+
+<div class="page" id="page-login">
+  <div class="page-title">🔐 Login / Daftar Akun</div>
+  <div class="page-sub">Masuk atau buat akun untuk menyimpan riwayat pembelian kamu</div>
+
+  <div class="auth-wrap hud-panel form-section">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="authtab-login" onclick="showAuthTab('login')">Login</div>
+      <div class="auth-tab" id="authtab-daftar" onclick="showAuthTab('daftar')">Daftar</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-content active" id="authcontent-login">
+      <form id="form-login" onsubmit="event.preventDefault(); loginAkun();">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Masukkan username" required />
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Masukkan password" required />
+        <div class="auth-error" id="login-error"></div>
+        <button class="btn-beli" type="submit">Masuk</button>
+      </form>
+      <div class="auth-hint">Belum punya akun? Klik tab <strong style="color:var(--gold)">Daftar</strong> di atas.</div>
+    </div>
+
+    <!-- DAFTAR -->
+    <div class="auth-content" id="authcontent-daftar">
+      <form id="form-daftar" onsubmit="event.preventDefault(); daftarAkun();">
+        <label>Username</label>
+        <input type="text" id="daftar-username" placeholder="Buat username" required />
+        <label>Password</label>
+        <input type="password" id="daftar-password" placeholder="Buat password (min. 4 karakter)" required />
+        <label>Konfirmasi Password</label>
+        <input type="password" id="daftar-password2" placeholder="Ulangi password" required />
+        <div class="auth-error" id="daftar-error"></div>
+        <div class="auth-success" id="daftar-success"></div>
+        <button class="btn-beli" type="submit">Daftar Sekarang</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<footer>© 2026 GameZone Top Up · Murah · Cepat · Aman · Buka 24 Jam</footer>
+
+<script src="script.js"></script>
+<script>initHalamanUmum();</script>
+</body>
+</html>
