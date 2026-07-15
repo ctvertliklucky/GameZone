@@ -409,6 +409,11 @@
   .bayar-item.selected { border-color: #22e07a; background: #0a1f14; color: #7cf7b0; box-shadow: 0 6px 16px rgba(34,224,122,0.15); }
   .bayar-item .pay-icon { font-size: 19px; margin-bottom: 5px; }
 
+  .bayar-detail { animation: fadeInDetail 0.25s var(--ease); }
+  .bayar-detail:empty { display: none; }
+  .bayar-detail label { margin-top: 14px !important; }
+  @keyframes fadeInDetail { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
   .total-box {
     background: linear-gradient(120deg, rgba(45,212,255,0.08), rgba(255,63,127,0.05));
     border: 1px solid var(--cyan);

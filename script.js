@@ -30,14 +30,19 @@
   };
 
   const metodeBayar = [
-    { icon: "💙", nama: "DANA" },
-    { icon: "💚", nama: "GoPay" },
-    { icon: "🌊", nama: "SeaBank" },
-    { icon: "🟥", nama: "QRIS" },
+    { icon: "💙", nama: "DANA", tipe: "nomor", label: "Nomor DANA" },
+    { icon: "💚", nama: "GoPay", tipe: "nomor", label: "Nomor GoPay" },
+    { icon: "🌊", nama: "SeaBank", tipe: "nomor", label: "Nomor SeaBank" },
+    { icon: "🏦", nama: "Bank Transfer", tipe: "rekening", label: "Nomor Rekening" },
   ];
 
   let selectedNominal = { ml: null, ef: null, ff: null };
   let selectedBayar = { ml: null, ef: null, ff: null };
+  const daftarBank = ["BCA", "BRI", "BNI", "Mandiri"];
+
+  let selectedBayarInfo = { ml: null, ef: null, ff: null }; // { tipe, label } dari metode yang dipilih
+  let selectedBayarNomor = { ml: '', ef: '', ff: '' }; // nomor rekening / nomor HP yang diisi user
+  let selectedBayarBank = { ml: '', ef: '', ff: '' }; // nama bank yang dipilih (khusus Bank Transfer)
   let voucherTerpilih = { ml: null, ef: null, ff: null };
   let currentPageId = 'beranda'; // di-set ulang oleh initHalamanTopup() di halaman top up
 
@@ -465,10 +470,51 @@
         container.querySelectorAll('.bayar-item').forEach(el => el.classList.remove('selected'));
         div.classList.add('selected');
         selectedBayar[game] = item.nama;
+        selectedBayarInfo[game] = { tipe: item.tipe, label: item.label };
+        selectedBayarNomor[game] = '';
+        selectedBayarBank[game] = '';
+        renderBayarDetail(game);
         updateSummary(game);
       };
       container.appendChild(div);
     });
+  }
+
+  // Menampilkan input Nomor Rekening (Bank Transfer) atau Nomor HP/E-wallet (DANA/GoPay/SeaBank)
+  // sesuai metode pembayaran yang baru saja dipilih user.
+  function renderBayarDetail(game) {
+    const container = document.getElementById('bayar-detail-' + game);
+    if (!container) return;
+    const info = selectedBayarInfo[game];
+    if (!info) { container.innerHTML = ''; return; }
+
+    if (info.tipe === 'rekening') {
+      const opsiBank = daftarBank.map(b => `<option value="${b}" ${selectedBayarBank[game] === b ? 'selected' : ''}>${b}</option>`).join('');
+      container.innerHTML = `
+        <label>Pilih Bank</label>
+        <select id="bayar-bank-${game}" onchange="updateBayarBank('${game}', this.value)">
+          <option value="">-- Pilih Bank --</option>
+          ${opsiBank}
+        </select>
+        <label>${info.label}</label>
+        <input type="text" inputmode="numeric" id="bayar-nomor-${game}" placeholder="Contoh: 1234567890" value="${selectedBayarNomor[game] || ''}" oninput="updateBayarNomor('${game}', this.value)" />
+      `;
+    } else {
+      container.innerHTML = `
+        <label>${info.label}</label>
+        <input type="text" inputmode="numeric" id="bayar-nomor-${game}" placeholder="Contoh: 081234567890" value="${selectedBayarNomor[game] || ''}" oninput="updateBayarNomor('${game}', this.value)" />
+      `;
+    }
+  }
+
+  function updateBayarBank(game, value) {
+    selectedBayarBank[game] = value;
+    updateSummary(game);
+  }
+
+  function updateBayarNomor(game, value) {
+    selectedBayarNomor[game] = value.trim();
+    updateSummary(game);
   }
 
   // Menghitung total akhir dengan mempertimbangkan flash sale ATAU voucher (dipilih yang lebih besar diskonnya)
@@ -509,6 +555,16 @@
     }
   }
 
+  // Menyusun teks metode pembayaran lengkap, misal "Bank Transfer BCA • 1234567890"
+  function labelMetodeBayar(game) {
+    const bayar = selectedBayar[game];
+    if (!bayar) return '';
+    const bank = selectedBayarBank[game];
+    const nomor = selectedBayarNomor[game];
+    const namaMetode = bank ? `${bayar} ${bank}` : bayar;
+    return nomor ? `${namaMetode} • ${nomor}` : namaMetode;
+  }
+
   // Mengisi panel Ringkasan Pesanan di samping form top up secara live
   function updateSummary(game) {
     const uidMap = { ml: 'ml-uid', ef: 'ef-uid', ff: 'ff-uid' };
@@ -540,7 +596,7 @@
     const bayarEl = document.getElementById('summary-' + game + '-bayar');
     if (bayarEl) {
       const bayar = selectedBayar[game];
-      bayarEl.textContent = bayar || 'Belum dipilih';
+      bayarEl.textContent = bayar ? labelMetodeBayar(game) : 'Belum dipilih';
       bayarEl.classList.toggle('empty', !bayar);
     }
 
@@ -560,6 +616,15 @@
     if (!uid) { alert('Harap isi User ID / Player ID terlebih dahulu!'); return; }
     if (!selectedNominal[game]) { alert('Pilih nominal top up terlebih dahulu!'); return; }
     if (!selectedBayar[game]) { alert('Pilih metode pembayaran terlebih dahulu!'); return; }
+    if (selectedBayarInfo[game] && selectedBayarInfo[game].tipe === 'rekening' && !selectedBayarBank[game]) {
+      alert('Pilih bank terlebih dahulu!');
+      return;
+    }
+    if (!selectedBayarNomor[game]) {
+      const label = selectedBayarInfo[game] ? selectedBayarInfo[game].label : 'nomor pembayaran';
+      alert(`Harap isi ${label} terlebih dahulu!`);
+      return;
+    }
 
     const namaGame = { ml: 'Mobile Legends', ef: 'eFootball', ff: 'Free Fire' };
     const item = selectedNominal[game];
@@ -590,7 +655,7 @@
     tambahHistory(currentUser(), {
       game: namaGame[game],
       item: item.label,
-      metode: selectedBayar[game],
+      metode: labelMetodeBayar(game),
       total: totalAkhir,
       waktu: waktuText,
     });
@@ -603,8 +668,17 @@
     updateSummary(game);
 
     document.getElementById('modal-msg').innerHTML =
-      `Pesanan <strong>${item.label}</strong> untuk <strong>${namaGame[game]}</strong> sedang diproses via <strong>${selectedBayar[game]}</strong>.<br>Total: <strong>${totalText}</strong>${diskonInfo}<br><br>Diamond/Coin akan masuk dalam 1–5 menit. Terima kasih!<br><br>✨ Kamu dapat <strong>+${POIN_PER_PEMBELIAN} poin</strong> (total sekarang: <strong>${poinBaru} poin</strong>)<br>📋 Transaksi ini tersimpan di halaman <strong>Riwayat</strong>.<br><br>📤 Jangan lupa kirim bukti transfer ke WhatsApp <strong>+62 812-3456-7890</strong> atau email <strong>support@gamezone.id</strong> agar pesanan diproses lebih cepat.`;
+      `Pesanan <strong>${item.label}</strong> untuk <strong>${namaGame[game]}</strong> sedang diproses via <strong>${labelMetodeBayar(game)}</strong>.<br>Total: <strong>${totalText}</strong>${diskonInfo}<br><br>Diamond/Coin akan masuk dalam 1–5 menit. Terima kasih!<br><br>✨ Kamu dapat <strong>+${POIN_PER_PEMBELIAN} poin</strong> (total sekarang: <strong>${poinBaru} poin</strong>)<br>📋 Transaksi ini tersimpan di halaman <strong>Riwayat</strong>.<br><br>📤 Jangan lupa kirim bukti transfer ke WhatsApp <strong>+62 812-3456-7890</strong> atau email <strong>support@gamezone.id</strong> agar pesanan diproses lebih cepat.`;
     document.getElementById('modalSukses').classList.add('show');
+
+    // Reset pilihan metode pembayaran & nomor setelah pesanan berhasil dibuat
+    selectedBayar[game] = null;
+    selectedBayarInfo[game] = null;
+    selectedBayarNomor[game] = '';
+    selectedBayarBank[game] = '';
+    document.querySelectorAll('#bayar-' + game + ' .bayar-item').forEach(el => el.classList.remove('selected'));
+    renderBayarDetail(game);
+    updateSummary(game);
   }
 
   function tutupModal() {
